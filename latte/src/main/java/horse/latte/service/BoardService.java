@@ -5,6 +5,7 @@ import horse.latte.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -18,5 +19,10 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    //연도별 게시물 조회
+    @Transactional
+    public List<Board> getYearSearch(Long year) {
+        return boardRepository.findByYear(year);
+    }
 
 }

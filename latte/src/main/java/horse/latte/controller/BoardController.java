@@ -1,14 +1,11 @@
 package horse.latte.controller;
 
 import horse.latte.model.Board;
-import horse.latte.repository.BoardRepository;
 import horse.latte.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,9 +20,9 @@ public class BoardController {
     }
 
     //연도별로 분류된 게시물 조회
-    @GetMapping("/year")
-    public List<Board> getBoardYear() {
-        return null;
+    @GetMapping("/{year}")
+    public List<Board> getYearSearch(@PathVariable Long year) {
+        return boardService.getYearSearch(year);
     }
 
     //좋아요 기능 구현해보기          //매개변수에 토큰도 넣어서
