@@ -2,6 +2,7 @@ package horse.latte.controller;
 
 import horse.latte.dto.CommentRequestDto;
 import horse.latte.model.Comment;
+import horse.latte.repository.CommentRepository;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
+    private final CommentRepository commentRepository;
     @PostMapping("/api/board/{boardId}/detail/comment/write")
-    public String createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId) {
     public String createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         //Error: Exceeded maxRedirects. Probably stuck in a
         // redirect loop http://localhost:8080/api/user/loginView
@@ -26,6 +27,7 @@ public class CommentController {
         }
         return "로그인이 필요한 기능입니다.";
     }
+
     @GetMapping("/api/board/{boardId}/detail/comments")
     public List<Comment> getComment(@PathVariable Long boardId) {
         return commentService.find(boardId);

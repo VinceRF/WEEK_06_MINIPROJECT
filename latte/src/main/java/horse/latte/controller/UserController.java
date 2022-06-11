@@ -18,7 +18,6 @@ public class UserController {
 
     @PostMapping("/api/user/signup")  //체크 완료
     public String signup(@RequestBody @Valid SignupRequestDto requestDto) {
-        userService.signup(requestDto);
-        return "redirect:/";
+        return userService.signup(requestDto);
     }
 }
