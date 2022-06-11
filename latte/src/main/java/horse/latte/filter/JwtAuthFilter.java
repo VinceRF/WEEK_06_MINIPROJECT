@@ -15,22 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Token 을 내려주는 Filter 가 아닌  client 에서 받아지는 Token 을 서버 사이드에서 검증하는 클레스 SecurityContextHolder 보관소에 해당
- * Token 값의 인증 상태를 보관 하고 필요할때 마다 인증 확인 후 권한 상태 확인 하는 기능
- */
 public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
-
-    /**
-     * 인증 성공 시, 사용자는 jwt를 갖게 되고 이후 클라이언트가 api에 요청을 하면
-     * JwtAuthFilter에서 클라이언트에서 보낸 jwt의 유효성을 검증함
-     */
 
     private final HeaderTokenExtractor extractor;
 
-    public JwtAuthFilter(RequestMatcher requiresAuthenticationRequestMatcher,
-                         HeaderTokenExtractor extractor)
-    {
+    public JwtAuthFilter(
+            RequestMatcher requiresAuthenticationRequestMatcher,
+            HeaderTokenExtractor extractor
+    ) {
         super(requiresAuthenticationRequestMatcher);
 
         this.extractor = extractor;
@@ -39,27 +31,19 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(
             HttpServletRequest request,
-            HttpServletResponse response) throws AuthenticationException, IOException
-    {
-        /**
-         * jwt 인증 시도
-         */
+            HttpServletResponse response
+    ) throws AuthenticationException, IOException {
 
         // JWT 값을 담아주는 변수 TokenPayload
         String tokenPayload = request.getHeader("Authorization");
-
-        // 토큰이 없을 경우
         if (tokenPayload == null) {
-            response.sendRedirect("/api/user/loginView");
+            response.sendRedirect("/");
             return null;
         }
 
-        // 토큰이 있는 경우 (extract를 확인해 보자!!)
-        JwtPreProcessingToken jwtToken =
-                new JwtPreProcessingToken(extractor.extract(tokenPayload, request));
+        JwtPreProcessingToken jwtToken = new JwtPreProcessingToken(
+                extractor.extract(tokenPayload, request));
 
-        // 여기까지는 jwt를 담는 것 까지만 해서 spring security로 넘겨주고
-        // 결론적으로 JWTAuthProvider가 호출됨
         return super
                 .getAuthenticationManager()
                 .authenticate(jwtToken);

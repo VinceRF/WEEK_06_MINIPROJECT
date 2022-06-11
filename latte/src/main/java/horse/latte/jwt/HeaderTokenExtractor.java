@@ -12,7 +12,7 @@ public class HeaderTokenExtractor {
      * HEADER_PREFIX
      * header Authorization token 값의 표준이되는 변수
      */
-    public final String HEADER_PREFIX = "Bearer ";
+    public final String HEADER_PREFIX = "";
 
     public String extract(String header, HttpServletRequest request) {
         /*

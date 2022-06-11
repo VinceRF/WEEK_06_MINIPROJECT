@@ -16,6 +16,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/board/{boardId}/detail/comment/write")
+    public String createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId) {
     public String createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         //Error: Exceeded maxRedirects. Probably stuck in a
         // redirect loop http://localhost:8080/api/user/loginView
