@@ -24,7 +24,7 @@ public class UserService {
     public String signup(SignupRequestDto requestDto) {
         String pattern = "^[a-zA-Z0-9]*$";
         String password2 = requestDto.getPassword2();
-        String error = "회원가입 실패";
+        String success = "회원가입 성공";
         String password = requestDto.getPassword();
 
         String username = requestDto.getUsername();
@@ -59,7 +59,7 @@ public class UserService {
 
         User user = new User(username, nickname, password);
         userRepository.save(user);
-        return error;
+        return success;
     }
 }
 

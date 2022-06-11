@@ -1,6 +1,5 @@
 package horse.latte.controller;
 
-import horse.latte.dto.LoginRequestDto;
 import horse.latte.dto.SignupRequestDto;
 import horse.latte.service.UserService;
 import lombok.RequiredArgsConstructor;
