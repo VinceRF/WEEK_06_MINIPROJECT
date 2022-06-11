@@ -7,6 +7,7 @@ import horse.latte.provider.FormLoginAuthProvider;
 import horse.latte.provider.JWTAuthProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -79,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest()
                 .permitAll()
+//                .permitAll()
                 .and()
                 // [로그아웃 기능]
                 .logout()
@@ -132,6 +134,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         skipPathList.add("GET,/api/board");
         skipPathList.add("GET,/api/board/**");
+
+        skipPathList.add("GET,/api/board/**/detail/comments");
 
 //        skipPathList.add("PUT,/api/boards/**");
 //        skipPathList.add("DELETE,/api/boards/**");

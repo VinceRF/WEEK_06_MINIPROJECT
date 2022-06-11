@@ -1,7 +1,10 @@
 package horse.latte.model;
 
 import horse.latte.dto.CommentRequestDto;
+import horse.latte.security.UserDetailsImpl;
+import horse.latte.security.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
+@Builder
 public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -22,12 +26,13 @@ public class Comment {
 //    @JoinColumn(name = "board_id")
 //    private Board board;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user; // 작성자
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Comment(CommentRequestDto requestDto){
+    public Comment(CommentRequestDto requestDto, UserDetailsImpl user){
         this.comment = requestDto.getComment();
+        this.user = user.getUser();
     }
 
     public void update(CommentRequestDto requestDto){

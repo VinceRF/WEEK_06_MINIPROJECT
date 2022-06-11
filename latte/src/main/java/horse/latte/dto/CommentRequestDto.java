@@ -1,5 +1,6 @@
 package horse.latte.dto;
 
+import horse.latte.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

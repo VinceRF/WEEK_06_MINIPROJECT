@@ -3,6 +3,7 @@ package horse.latte.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -25,6 +26,9 @@ public class User extends Timestamped {
 
     @Column(nullable = false)
     private String password;
+
+//    @OneToMany(mappedBy = "user_id", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<Comment> comments;
 
     public User(String username,String nickname, String password) {
         this.username = username;
