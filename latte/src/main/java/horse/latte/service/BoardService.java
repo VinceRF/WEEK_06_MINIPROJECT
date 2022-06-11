@@ -15,14 +15,22 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     //전체조회
+    @Transactional
     public List<Board> getBoard() {
-        return boardRepository.findAll();
+        return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    //연도별 게시물 조회
-    @Transactional
+    //게시물 연도별 조회 구현
     public List<Board> getYearSearch(Long year) {
-        return boardRepository.findByYear(year);
+        return boardRepository.findByYearByModifiedAtDesc(year);
     }
+
+//    //연도별 게시물 조회
+//    @Transactional
+//    public List<Board> getYearSearch(Long year) {
+//        return boardRepository.findByYear(year);
+//    }
+
+
 
 }
