@@ -30,5 +30,4 @@ public class BoardController {
     public Long like(@PathVariable Long id){
         return null;
     }
-
 }
