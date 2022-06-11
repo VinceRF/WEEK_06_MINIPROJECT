@@ -1,6 +1,5 @@
 package horse.latte.controller;
 
-import horse.latte.dto.LoginRequestDto;
 import horse.latte.dto.SignupRequestDto;
 import horse.latte.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ public class UserController {
 
     @PostMapping("/api/user/signup")  //체크 완료
     public String signup(@RequestBody @Valid SignupRequestDto requestDto) {
-        userService.signup(requestDto);
-        return "redirect:/";
+        return userService.signup(requestDto);
     }
 }
