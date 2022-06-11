@@ -5,6 +5,7 @@ import horse.latte.filter.JwtAuthFilter;
 import horse.latte.jwt.HeaderTokenExtractor;
 import horse.latte.provider.FormLoginAuthProvider;
 import horse.latte.provider.JWTAuthProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,13 +16,21 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,14 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
 
-    public WebSecurityConfig(
-            JWTAuthProvider jwtAuthProvider,
-            HeaderTokenExtractor headerTokenExtractor
-    ) {
-        this.jwtAuthProvider = jwtAuthProvider;
-        this.headerTokenExtractor = headerTokenExtractor;
-    }
 
+    // 암호화에 필요한 PasswordEncoder 를 Bean 등록합니다.
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
@@ -54,15 +57,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
         web
                 .ignoring()
-                .antMatchers("/h2-console/**");
+                .antMatchers("/h2-console/**")
+                .antMatchers("/swagger-ui.html", "/webjars/**", "/swagger/**")
+                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**");
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+
+        http.csrf().disable()
+                .headers()
+                .frameOptions().sameOrigin(); // SockJS는 기본적으로 HTML iframe 요소를 통한 전송을 허용하지 않도록 설정되는데 해당 내용을 해제한다.
 
         // 서버에서 인증은 JWT로 인증하기 때문에 Session의 생성을 막습니다.
-        http
+        http    .cors()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -84,11 +94,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 // 로그아웃 요청 처리 URL
                 .logoutUrl("/api/user/logout")
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) throws IOException, ServletException {
+                        System.out.println("success");
+                    }
+                })
                 .permitAll()
                 .and()
-                .exceptionHandling()
-                // "접근 불가" 페이지 URL 설정
-                .accessDeniedPage("/forbidden.html");
+                .exceptionHandling();
     }
 
     @Bean
@@ -96,8 +112,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager());
         formLoginFilter.setFilterProcessesUrl("/api/user/login");
         formLoginFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler());
+//        formLoginFilter.setAuthenticationFailureHandler(formLoginfailureHandler());
         formLoginFilter.afterPropertiesSet();
-        System.out.println("WebSecurityConfig formLoginFilter");
         return formLoginFilter;
     }
 
@@ -105,6 +121,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public FormLoginSuccessHandler formLoginSuccessHandler() {
         return new FormLoginSuccessHandler();
     }
+
+//    @Bean
+//    public FormLoginFailureHandler formLoginfailureHandler() {
+//        return new FormLoginFailureHandler();
+//    }
 
     @Bean
     public FormLoginAuthProvider formLoginAuthProvider() {
@@ -114,27 +135,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
-        // Static 정보 접근 허용
-        skipPathList.add("GET,/images/**");
-        skipPathList.add("GET,/css/**");
-        skipPathList.add("GET,/favicon.ico");
-
-        // h2-console 허용
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
+        skipPathList.add("GET,/health");
 
         // 회원 관리 API 허용
+        skipPathList.add("POST,/api/user/signup/**");
+
+        //메인페이지 스킵!
         skipPathList.add("GET,/api/user/**");
-        skipPathList.add("POST,/api/user/signup");
-
-        skipPathList.add("GET,/");
-        skipPathList.add("GET,/basic.js");
-
-        skipPathList.add("GET,/api/board");
-        skipPathList.add("GET,/api/board/**");
-
-//        skipPathList.add("PUT,/api/boards/**");
-//        skipPathList.add("DELETE,/api/boards/**");
+        skipPathList.add("GET,/api/**");
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
                 skipPathList,
@@ -155,4 +165,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("http://localhost:3000");
+//        configuration.addAllowedOrigin("https://raddaslul.s3.ap-northeast-2.amazonaws.com/");
+//        configuration.addAllowedOrigin("https://jhoon3697.s3.ap-northeast-2.amazonaws.com/image/");
+//        configuration.addAllowedOrigin("https://dss1222.s3.ap-northeast-2.amazonaws.com/image/");
+//        configuration.addAllowedOrigin("http://jeonhaekang.shop.s3-website.ap-northeast-2.amazonaws.com/");
+//        configuration.addAllowedOrigin("https://master.d33lja7kfvwqj0.amplifyapp.com/");
+//        configuration.addAllowedOrigin("https://www.debate-talk.com/");
+//        configuration.setAllowCredentials(true); // 클라이언트의 쿠키를 전달하고 받을 것이기 때문에 allowCredentials를 true로 설정한다.
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+////        configuration.addExposedHeader("*");
+//        configuration.addExposedHeader("Authorization");
+//        configuration.validateAllowCredentials();
+//        configuration.setMaxAge(3600L);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
