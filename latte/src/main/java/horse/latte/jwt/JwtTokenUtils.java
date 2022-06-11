@@ -1,13 +1,10 @@
 package horse.latte.jwt;
 
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import horse.latte.security.UserDetailsImpl;
 
 import java.util.Date;
-
-
 
 public final class JwtTokenUtils {
 
