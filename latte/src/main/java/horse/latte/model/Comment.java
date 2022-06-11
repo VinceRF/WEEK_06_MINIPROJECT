@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Builder
-public class Comment {
+public class Comment extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -27,7 +27,7 @@ public class Comment {
 //    private Board board;
 //
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_nickname")
     private User user;
 
     public Comment(CommentRequestDto requestDto, UserDetailsImpl user){
