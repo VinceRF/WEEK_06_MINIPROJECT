@@ -17,12 +17,12 @@ public class Love {
     @Column         //왜 컬럼화 할까
     private Long id;
 
-    //게시물과 묶음
+    //어떤 게시물을 좋아요 하는지
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
 
-    //유저와 묶음
+    //어떤 유저가 좋아요 하는지
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
