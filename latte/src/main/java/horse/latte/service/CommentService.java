@@ -1,6 +1,7 @@
 package horse.latte.service;
 
 import horse.latte.dto.CommentRequestDto;
+import horse.latte.dto.response.CommentResponseDto;
 import horse.latte.model.Comment;
 import horse.latte.repository.CommentRepository;
 import horse.latte.security.UserDetailsImpl;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,22 +32,28 @@ public class CommentService {
     }
 
     @Transactional
-    public List<Comment> find(Long boardId){
-//        List<Board> boards = commentRepository.findAById(boardId).orElseThrow(
-//                () -> new NullPointerException("게시판이 조회되지 않습니다."));
-        //comment에 저장된 board의 id로 검색을 해야하는데
-        //지금 이대로 가면 board 객체는 board의 모든 정보를 다 가지고 있어서
-        //boardId로만 검색하기 어려울 것 같은데?
-        //위에서 선언한 board로 해야 하는 구나
-        // findCommentsByBoard??
+    public List<CommentResponseDto> find(Long boardId){
 
-        //user의 정보를 전부 보내주니까 문제가 되지 않을까?
-        //user의 nickname만 보내주는 방법이 뭐가 있을까?
-        //jsonIgnore?
+//        Posts posts = postsRepository.findById(postId).orElseThrow(
+//                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
+//        );
 
-//        return commentRepository.findAllById(boardId);
-        return commentRepository.findAll();
+        List<Comment> comments = commentRepository.findAll();
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+
+        for(Comment comment : comments){
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    comment.getId(),
+                    comment.getUser().getNickname(),
+                    comment.getComment(),
+                    comment.getCreatedAt()
+            );
+            commentResponseDtos.add(commentResponseDto);
+        }
+
+        return commentResponseDtos;
     }
+
 
     @Transactional
     public String edit(CommentRequestDto requestDto, Long commentId){
@@ -56,6 +64,7 @@ public class CommentService {
         commentRepository.save(comment);
         return "수정 성공";
     }
+
 
     @Transactional
     public String delete(Long commentId){

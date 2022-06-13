@@ -1,15 +1,13 @@
 package horse.latte.dto;
 
 import horse.latte.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+//@Getter
+//@AllArgsConstructor
+//@NoArgsConstructor
+@Data
 public class CommentRequestDto {
     private String comment;
     private User user;

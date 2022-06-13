@@ -1,6 +1,7 @@
 package horse.latte.controller;
 
 import horse.latte.dto.CommentRequestDto;
+import horse.latte.dto.response.CommentResponseDto;
 import horse.latte.model.Comment;
 import horse.latte.repository.CommentRepository;
 import horse.latte.security.UserDetailsImpl;
@@ -29,7 +30,7 @@ public class CommentController {
     }
 
     @GetMapping("/api/board/{boardId}/detail/comments")
-    public List<Comment> getComment(@PathVariable Long boardId) {
+    public List<CommentResponseDto> getComment(@PathVariable Long boardId) {
         return commentService.find(boardId);
     }
 

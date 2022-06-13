@@ -2,15 +2,19 @@ package horse.latte.dto.response;
 
 import horse.latte.dto.CommentRequestDto;
 import horse.latte.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
+@AllArgsConstructor
 public class CommentResponseDto {
+    private Long id;
+
     private String comment;
+
     private String userNickname;
 
-    CommentResponseDto(CommentRequestDto requestDto){
-        this.comment = requestDto.getComment();
-        this.userNickname = requestDto.getUser().getNickname();
-    }
+    private LocalDateTime createdAt;
 }
