@@ -21,6 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .headers()
-                .frameOptions().sameOrigin(); // SockJS는 기본적으로 HTML iframe 요소를 통한 전송을 허용하지 않도록 설정되는데 해당 내용을 해제한다.
+                .frameOptions().disable(); // SockJS는 기본적으로 HTML iframe 요소를 통한 전송을 허용하지 않도록 설정되는데 해당 내용을 해제한다.
 
         // 서버에서 인증은 JWT로 인증하기 때문에 Session의 생성을 막습니다.
         http    .cors()
@@ -87,6 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
+                // PreFlight 요청 인증 X
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest()
                 .permitAll()
                 .and()
@@ -172,25 +177,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.addAllowedOrigin("http://localhost:3000");
-//        configuration.addAllowedOrigin("https://raddaslul.s3.ap-northeast-2.amazonaws.com/");
-//        configuration.addAllowedOrigin("https://jhoon3697.s3.ap-northeast-2.amazonaws.com/image/");
-//        configuration.addAllowedOrigin("https://dss1222.s3.ap-northeast-2.amazonaws.com/image/");
-//        configuration.addAllowedOrigin("http://jeonhaekang.shop.s3-website.ap-northeast-2.amazonaws.com/");
-//        configuration.addAllowedOrigin("https://master.d33lja7kfvwqj0.amplifyapp.com/");
-//        configuration.addAllowedOrigin("https://www.debate-talk.com/");
-//        configuration.setAllowCredentials(true); // 클라이언트의 쿠키를 전달하고 받을 것이기 때문에 allowCredentials를 true로 설정한다.
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedHeader("*");
-////        configuration.addExposedHeader("*");
-//        configuration.addExposedHeader("Authorization");
-//        configuration.validateAllowCredentials();
-//        configuration.setMaxAge(3600L);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.setAllowCredentials(true); // 클라이언트의 쿠키를 전달하고 받을 것이기 때문에 allowCredentials를 true로 설정한다.
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+        configuration.addExposedHeader("Authorization");
+        configuration.validateAllowCredentials();
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
