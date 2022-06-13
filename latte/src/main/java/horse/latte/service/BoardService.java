@@ -22,8 +22,11 @@ public class BoardService {
 
     //게시물 연도별 조회 구현
     public List<Board> getYearSearch(Long year) {
-        return boardRepository.findByYearByModifiedAtDesc(year);
+        return boardRepository.findAllByYear(year);
     }
+
+
+
 
 //    //연도별 게시물 조회
 //    @Transactional
