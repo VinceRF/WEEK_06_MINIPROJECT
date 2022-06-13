@@ -20,10 +20,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Transactional
     @Modifying
     @Query("update Board m set m.loveCount = m.loveCount+1 where m.id = :id")
-    int upLoveCount(Long id);
+    void upLoveCount(Long id);
 
     @Transactional
     @Modifying
     @Query("update Board m set m.loveCount = m.loveCount-1 where m.id = :id")
-    int downLoveCount(Long id);
+    void downLoveCount(Long id);
 }

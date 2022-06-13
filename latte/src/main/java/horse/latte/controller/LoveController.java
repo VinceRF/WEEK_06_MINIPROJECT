@@ -18,6 +18,7 @@ public class LoveController {
 
     @PostMapping("/{boardId}/like")
     public boolean clickLove (@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("좋아요 성공");
         return loveService.lovePosting(boardId, userDetails);
     }
 }

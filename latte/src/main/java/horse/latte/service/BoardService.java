@@ -1,5 +1,6 @@
 package horse.latte.service;
 
+import horse.latte.dto.BoardDto;
 import horse.latte.model.Board;
 import horse.latte.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,10 @@ public class BoardService {
     }
 
     //게시물 연도별 조회 구현
+    @Transactional
     public List<Board> getYearSearch(Long year) {
         return boardRepository.findAllByYear(year);
     }
-
 
 
 

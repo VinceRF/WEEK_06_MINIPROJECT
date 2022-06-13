@@ -1,6 +1,8 @@
 package horse.latte.controller;
 
+import horse.latte.dto.BoardDto;
 import horse.latte.model.Board;
+import horse.latte.repository.BoardRepository;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ public class BoardController {
             return boardService.getBoard();
         }
     }
+
+
 }
 
 
