@@ -1,12 +1,11 @@
 package horse.latte.model;
 
-import lombok.AllArgsConstructor;
+import horse.latte.dto.BoardDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
@@ -30,4 +29,18 @@ public class Board extends Timestamped{
 
     @Column
     private int loveCount;          //좋아요
+
+    public Board(String nickname, String content, Long year, String url) {
+        this.nickname = nickname;
+        this.content = content;
+        this.year = year;
+        this.url = url;
+    }
+
+    public Board(BoardDto boardDto){
+        this.nickname = boardDto.getNickname();
+        this.content = boardDto.getContent();
+        this.year = boardDto.getYear();
+        this.url = boardDto.getUrl();
+    }
 }

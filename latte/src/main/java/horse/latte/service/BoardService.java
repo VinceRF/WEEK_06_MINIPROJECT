@@ -3,6 +3,7 @@ package horse.latte.service;
 import horse.latte.dto.BoardDto;
 import horse.latte.model.Board;
 import horse.latte.repository.BoardRepository;
+import horse.latte.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

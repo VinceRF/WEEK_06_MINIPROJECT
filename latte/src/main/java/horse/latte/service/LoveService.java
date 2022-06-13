@@ -36,7 +36,7 @@ public class LoveService {
                 () -> new NullPointerException("게시물이 존재하지 않습니다."));
 
         //로그인한 유저, 해당 게시글 pk로 좋아요 유무
-        Optional<Love> click = loveRepository.findLikesByUserAndBoardId(user, boardId);
+        Optional<Love> click = loveRepository.findLovesByUserAndBoardId(user, boardId);
         //게시글에 좋아요를 찾아온다.   만약 존재한다면
         if (click.isPresent()) {
             //리포지토리에 클릭한 유저의 정보를 받아 해당 게시물의 좋아요를 지운다.

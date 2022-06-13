@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface LoveRepository extends JpaRepository<Love, Long> {
-    Optional<Love> findLikesByUserAndBoardId(User user, Long id);
+    Optional<Love> findLovesByUserAndBoardId(User user, Long id);
     void deleteLoveByUserAndBoard(User user, Board board);
 }
