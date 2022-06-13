@@ -21,9 +21,8 @@ public class BoardService {
 
     public Board createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         //요정받은 DTO로 DB에 저장할 객체 만들기
-        Board board = new Board(requestDto.getTitle(), requestDto.getContents(), userDetails.getUsername(), userDetails.getPassword(), requestDto.getUrl(), requestDto.getYear());
-        boardRepository.save(board);
-        return board;
+        Board board = new Board(requestDto, userDetails);
+        return  boardRepository.save(board);
     }
 
     @Transactional
@@ -53,14 +52,6 @@ public class BoardService {
         }
     }
 
-    public List<Board> getAllBoards() {
-        return boardRepository.findAllByOrderByModifiedAtDesc();
-    }
-
-    public List<Board> getBoardsByYear(Long year){
-        return boardRepository.findAllByYear(year);
-    }
-
     public Board getBoard(Long id) {
         Optional<Board> board = boardRepository.findById(id);
         if (board.isPresent()) {
@@ -69,4 +60,12 @@ public class BoardService {
             throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
         }
     }
+
+//    public List<Board> getAllBoards() {
+//        return boardRepository.findAllByOrderByModifiedAtDesc();
+//    }
+//
+//    public List<Board> getBoardsByYear(Long year){
+//        return boardRepository.findAllByYear(year);
+//    }
 }

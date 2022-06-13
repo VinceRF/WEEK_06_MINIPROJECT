@@ -1,6 +1,7 @@
 package horse.latte.model;
 
 import horse.latte.dto.BoardRequestDto;
+import horse.latte.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,26 +25,23 @@ public class Board extends Timestamped {
     private String username;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String url;
 
     @Column(nullable = false)
     private Long year;
 
-    public Board(String title, String contents, String username, String password, String url, Long year) {
-        this.title = title;
-        this.contents = contents;
-        this.username = username;
-        this.password = password;
-        this.url = url;
-        this.year = year;
-    }
+//    public Board(String title, String contents, String username, String url, Long year) {
+//        this.title = title;
+//        this.contents = contents.replace("\r\n","<br>");
+//        this.username = username;
+//        this.url = url;
+//        this.year = year;
+//    }
 
-    public Board(BoardRequestDto requestDto) {
+    public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.contents = requestDto.getContents().replace("\r\n","<br>");
+        this.username = userDetails.getUsername();
         this.url = requestDto.getUrl();
         this.year = requestDto.getYear();
     }

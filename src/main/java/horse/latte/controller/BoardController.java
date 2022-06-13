@@ -26,15 +26,6 @@ public class BoardController {
         return boardService.createBoard(requestDto, userDetails);
     }
 
-    @GetMapping("/api/board")
-    public List<Board> readBoard(@RequestParam(required = false) Long year) {
-        if (year != null) {
-            return boardService.getBoardsByYear(year);
-        } else {
-            return boardService.getAllBoards();
-        }
-    }
-
     @PutMapping("/api/board/{id}")
     public Long updateBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody BoardRequestDto requestDto) {
         return boardService.update(id, userDetails.getUsername(), requestDto);
@@ -51,10 +42,18 @@ public class BoardController {
         return boardService.getBoard(id);
     }
 
+//    @GetMapping("/api/board")
+//    public List<Board> readBoard(@RequestParam(required = false) Long year) {
+//        if (year != null) {
+//            return boardService.getBoardsByYear(year);
+//        } else {
+//            return boardService.getAllBoards();
+//        }
+//    }
+//
 //        // year로 조회
 //    @GetMapping("/api/board/years/{year}")
 //    public List<Board> selectedBoard(@PathVariable Long year){
 //        return boardRepository.findAllByYear(year);
 //    }
 }
-
