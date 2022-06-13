@@ -25,4 +25,7 @@ public class Board extends Timestamped{
 
     @Column(nullable = false)
     private String url;             //사진 url
+
+    @Column
+    private int loveCount;          //좋아요
 }
