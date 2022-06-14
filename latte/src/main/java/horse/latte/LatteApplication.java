@@ -11,5 +11,4 @@ public class LatteApplication {
     public static void main(String[] args) {
         SpringApplication.run(LatteApplication.class, args);
     }
-
 }
