@@ -1,5 +1,7 @@
 package horse.latte.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import horse.latte.dto.CommentRequestDto;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.security.UserDetailsServiceImpl;
@@ -22,10 +24,11 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "board_id")
-//    private Board board;
-//
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     @ManyToOne
     @JoinColumn(name = "user_nickname")
     private User user;
