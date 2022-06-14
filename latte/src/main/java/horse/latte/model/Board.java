@@ -1,16 +1,20 @@
 package horse.latte.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import horse.latte.dto.BoardRequestDto;
 import horse.latte.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Entity
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Board extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -38,6 +42,11 @@ public class Board extends Timestamped {
 //        this.url = url;
 //        this.year = year;
 //    }
+
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
 
     public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         this.title = requestDto.getTitle();
