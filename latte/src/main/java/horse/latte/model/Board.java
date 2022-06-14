@@ -1,6 +1,7 @@
 package horse.latte.model;
 
-import horse.latte.dto.BoardDto;
+import horse.latte.dto.BoardRequestDto;
+import horse.latte.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,38 +10,52 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Board extends Timestamped{
-//게시물 엔티티
-    @Id
+
+public class Board extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                //테이블 id
+    @Id
+    private Long id;
 
     @Column(nullable = false)
-    private String nickname;        //작성 닉네임
+    private String title;
 
     @Column(nullable = false)
-    private String content;         //작성 내용
+    private String contents;
 
     @Column(nullable = false)
-    private Long year;              //연도별 구분
+    private String username;
 
     @Column(nullable = false)
-    private String url;             //사진 url
+    private String url;
 
-    @Column
-    private int loveCount;          //좋아요
+    @Column(nullable = false)
+    private Long year;
 
-    public Board(String nickname, String content, Long year, String url) {
-        this.nickname = nickname;
-        this.content = content;
-        this.year = year;
-        this.url = url;
+//    public Board(String title, String contents, String username, String url, Long year) {
+//        this.title = title;
+//        this.contents = contents.replace("\r\n","<br>");
+//        this.username = username;
+//        this.url = url;
+//        this.year = year;
+//    }
+
+    public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
+        this.title = requestDto.getTitle();
+        this.contents = requestDto.getContents().replace("\r\n","<br>");
+        this.username = userDetails.getUsername();
+        this.url = requestDto.getUrl();
+        this.year = requestDto.getYear();
     }
 
-    public Board(BoardDto boardDto){
-        this.nickname = boardDto.getNickname();
-        this.content = boardDto.getContent();
-        this.year = boardDto.getYear();
-        this.url = boardDto.getUrl();
+    public void update(BoardRequestDto requestDto, Long id) {
+        this.title = requestDto.getTitle();
+        this.contents = requestDto.getContents();
+        this.url = requestDto.getUrl();
+        this.year = requestDto.getYear();
+        this.id = id;
+    }
+
+    public void delete(Long id) {
+        this.id = id;
     }
 }

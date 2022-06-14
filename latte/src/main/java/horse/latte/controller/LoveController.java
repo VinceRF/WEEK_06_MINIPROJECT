@@ -1,5 +1,6 @@
 package horse.latte.controller;
 
+import horse.latte.dto.LoveResponseDto;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.LoveService;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/board")
 @RequiredArgsConstructor
 public class LoveController {
 
     private final LoveService loveService;
 
-    @PostMapping("/{boardId}/like")
-    public boolean clickLove (@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println("좋아요 성공");
-        return loveService.lovePosting(boardId, userDetails);
+    @PostMapping("/api/board/{boardId}/like")
+    public LoveResponseDto postLove(@PathVariable long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("ID 체크 " + userDetails.getUsername());
+
+        return loveService.postLove(boardId, userDetails.getUser().getNickname());
     }
+
 }

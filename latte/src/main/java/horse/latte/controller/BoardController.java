@@ -1,7 +1,9 @@
 package horse.latte.controller;
 
-import horse.latte.dto.BoardDto;
+
+import horse.latte.dto.BoardRequestDto;
 import horse.latte.model.Board;
+import horse.latte.model.User;
 import horse.latte.repository.BoardRepository;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.BoardService;
@@ -11,37 +13,43 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @RestController
-@RequestMapping("/api")
+@RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
 
-    //게시물 조회
-    @GetMapping("/board")
-    public List<Board> readBoard(@RequestParam(value = "year", required = false) Long year) {
-        //required = true 는 기본값, true 일 경우 필수로 year 을 받아와야됨! 배운거다 현석아
-        //만약 연도가 들어온게 있다면
+    // 게시글 조회 및 연도별 카테고리 조회
+    @GetMapping("/api/board")
+    public List<Board> readBoard(@RequestParam(required = false) Long year) {
         if (year != null) {
-            //연도별 게시물로 조회해라
-            return boardService.getYearSearch(year);
+            return boardService.getBoardsByYear(year);
         } else {
-            //그게 아닌 null 값으로 그냥 조회가 된다면 전체조회
-            return boardService.getBoard();
+            return boardService.getAllBoards();
         }
     }
 
+    @PostMapping("/api/board")
+    public Board createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 로그인 되어 있는 회원 테이블의 ID
+        return boardService.createBoard(requestDto, userDetails);
+    }
+
+    @PutMapping("/api/board/{id}")
+    public Long updateBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody BoardRequestDto requestDto) {
+        return boardService.update(id, userDetails.getUsername(), requestDto);
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/api/board/{id}")
+    public Long deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.delete(id, userDetails.getUsername());
+    }
+
+    // 상세페이지
+    @GetMapping("/api/board/{id}")
+    public Board getBoard(@PathVariable Long id) {
+        return boardService.getBoard(id);
+    }
+
 }
-
-
-//등록된 전체 게시물 조회
-//    @GetMapping("/")
-//    public List<Board> getBoard() {
-//        return boardService.getBoard();
-//    }
-
-//연도별로 분류된 게시물 조회
-//    @GetMapping("/{year}")
-//    public List<Board> getYearSearch(@RequestParam Long year) {
-//        return boardService.getYearSearch(year);
-//    }
