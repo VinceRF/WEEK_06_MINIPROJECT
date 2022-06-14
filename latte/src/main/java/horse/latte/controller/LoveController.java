@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoveController {
     private final LoveService loveService;
 
+    //좋아요 기능구현
     @PostMapping("/api/board/{boardId}/like")
     public LoveResponseDto postLove(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-
-        System.out.println("좋아요 한 Id: " + userDetails.getUsername());
-
         return loveService.love(boardId, userDetails.getUsername());
     }
 
