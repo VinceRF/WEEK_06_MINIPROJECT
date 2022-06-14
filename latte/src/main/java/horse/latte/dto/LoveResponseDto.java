@@ -7,8 +7,8 @@ public class LoveResponseDto {
     private Long boardId;
     private Long totalLove;
 
-    public LoveResponseDto(Long id, Long totalLove) {
-        this.boardId = id;
+    public LoveResponseDto(Long boardId, Long totalLove) {
+        this.boardId = boardId;
         this.totalLove = totalLove;
     }
 }

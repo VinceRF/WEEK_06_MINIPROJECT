@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,11 +15,10 @@ public class LoveController {
 
     private final LoveService loveService;
 
-    @PostMapping("/api/board/{boardId}/like")
-    public LoveResponseDto postLove(@PathVariable long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PostMapping("/api/board/{id}/like")
+    public LoveResponseDto postLove(@PathVariable long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
         System.out.println("ID 체크 " + userDetails.getUsername());
 
-        return loveService.postLove(boardId, userDetails.getUser().getNickname());
+        return loveService.postLove(id, userDetails.getUser().getNickname());
     }
-
 }

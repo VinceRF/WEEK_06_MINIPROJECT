@@ -16,5 +16,5 @@ public interface LoveRepository extends JpaRepository<Love, Long> {
     Long countByBoard(Board board);
 
     // 해당 게시물의 연관된 좋아요 삭제
-    Long deleteByBoard(Board board);
+    void deleteByBoard(Board board);
 }
