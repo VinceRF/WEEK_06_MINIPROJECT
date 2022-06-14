@@ -19,5 +19,4 @@ public class LoveController {
     public LoveResponseDto postLove(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return loveService.love(boardId, userDetails.getUsername());
     }
-
 }

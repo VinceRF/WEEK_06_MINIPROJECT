@@ -46,5 +46,8 @@ public class LoveService {
 
         return new LoveResponseDto(boardId, loveRepository.countByBoard(board));
     }
-
 }
+
+//ResponseDto { private T responseData; //여기에 많이 들어가도됨
+// private String statusCode;
+// private String errorMessage; }
