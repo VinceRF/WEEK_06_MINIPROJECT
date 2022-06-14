@@ -24,7 +24,7 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String url;
 
     @Column(nullable = false)
