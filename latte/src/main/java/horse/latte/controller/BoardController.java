@@ -12,13 +12,22 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
 
+    // 게시글 조회 및 연도별 카테고리 조회
+    @GetMapping("/api/board")
+    public List<Board> readBoard(@RequestParam(required = false) Long year) {
+        if (year != null) {
+            return boardService.getBoardsByYear(year);
+        } else {
+            return boardService.getAllBoards();
+        }
+    }
 
     @PostMapping("/api/board")
     public Board createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -37,23 +46,10 @@ public class BoardController {
         return boardService.delete(id, userDetails.getUsername());
     }
 
+    // 상세페이지
     @GetMapping("/api/board/{id}")
     public Board getBoard(@PathVariable Long id) {
         return boardService.getBoard(id);
     }
 
-//    @GetMapping("/api/board")
-//    public List<Board> readBoard(@RequestParam(required = false) Long year) {
-//        if (year != null) {
-//            return boardService.getBoardsByYear(year);
-//        } else {
-//            return boardService.getAllBoards();
-//        }
-//    }
-//
-//        // year로 조회
-//    @GetMapping("/api/board/years/{year}")
-//    public List<Board> selectedBoard(@PathVariable Long year){
-//        return boardRepository.findAllByYear(year);
-//    }
 }

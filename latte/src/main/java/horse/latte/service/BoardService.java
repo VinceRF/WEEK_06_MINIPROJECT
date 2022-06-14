@@ -1,8 +1,8 @@
 package horse.latte.service;
 
+
 import horse.latte.dto.BoardRequestDto;
 import horse.latte.model.Board;
-import horse.latte.model.User;
 import horse.latte.repository.BoardRepository;
 import horse.latte.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BoardService {
-    @Autowired
+
     private final BoardRepository boardRepository;
 
     public Board createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
@@ -25,7 +25,7 @@ public class BoardService {
         return  boardRepository.save(board);
     }
 
-    @Transactional
+    @Transactional  //update 할때 필수
     public Long update(Long id, String username, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
@@ -61,11 +61,11 @@ public class BoardService {
         }
     }
 
-//    public List<Board> getAllBoards() {
-//        return boardRepository.findAllByOrderByModifiedAtDesc();
-//    }
-//
-//    public List<Board> getBoardsByYear(Long year){
-//        return boardRepository.findAllByYear(year);
-//    }
+    public List<Board> getAllBoards() {
+        return boardRepository.findAllByOrderByModifiedAtDesc();
+    }
+
+    public List<Board> getBoardsByYear(Long year){
+        return boardRepository.findAllByYear(year);
+    }
 }
