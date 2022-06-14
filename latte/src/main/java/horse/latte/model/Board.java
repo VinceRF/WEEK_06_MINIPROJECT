@@ -1,6 +1,8 @@
 package horse.latte.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import horse.latte.dto.BoardRequestDto;
 import horse.latte.security.UserDetailsImpl;
@@ -34,6 +36,10 @@ public class Board extends Timestamped {
 
     @Column(nullable = false)
     private Long year;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 //    public Board(String title, String contents, String username, String url, Long year) {
 //        this.title = title;

@@ -9,12 +9,14 @@ import java.util.Optional;
 
 public interface LoveRepository extends JpaRepository<Love, Long> {
 
-    // 해당 게시물에 user 가 누른 좋아요 조회
-    Optional<Love> findLovesByUserAndBoard(User user, Board board);
+    // 게시글에 user 가 누른 좋아요 조회
+    Optional<Love> findByUserAndBoard(User user, Board board);
 
-    // 해당 게시물의 좋아요 총 개수 조회
+    // 게시글에 좋아요 총 개수 조회
     Long countByBoard(Board board);
 
-    // 해당 게시물의 연관된 좋아요 삭제
-    void deleteByBoard(Board board);
+    // 게시글에 좋아요 삭제
+    Long deleteByboard(Board board);
+
+
 }
