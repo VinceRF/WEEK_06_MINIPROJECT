@@ -1,7 +1,7 @@
 package horse.latte.service;
 
-import horse.latte.dto.LoveRequestDto;
-import horse.latte.dto.LoveResponseDto;
+import horse.latte.dto.request.LoveRequestDto;
+import horse.latte.dto.request.LoveResponseDto;
 import horse.latte.exceptionhandler.ApiRequestException;
 import horse.latte.model.Board;
 import horse.latte.model.Love;
@@ -12,8 +12,6 @@ import horse.latte.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

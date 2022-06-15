@@ -1,6 +1,6 @@
 package horse.latte.service;
 
-import horse.latte.dto.SignupRequestDto;
+import horse.latte.dto.request.SignupRequestDto;
 import horse.latte.exceptionhandler.*;
 import horse.latte.model.User;
 import horse.latte.repository.UserRepository;

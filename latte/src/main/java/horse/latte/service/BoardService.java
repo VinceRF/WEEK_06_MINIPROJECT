@@ -1,17 +1,21 @@
 package horse.latte.service;
 
 
-import horse.latte.dto.BoardRequestDto;
+import horse.latte.dto.request.BoardRequestDto;
+import horse.latte.dto.response.BoardResponseDto;
+import horse.latte.dto.response.CommentResponseDto;
 import horse.latte.model.Board;
+import horse.latte.model.Comment;
 import horse.latte.repository.BoardRepository;
 import horse.latte.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,51 +25,131 @@ public class BoardService {
 
     public Board createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         //요정받은 DTO로 DB에 저장할 객체 만들기
-        Board board = new Board(requestDto, userDetails);
-        return  boardRepository.save(board);
+        Board board = Board.builder()
+                .title(requestDto.getTitle())
+                .contents(requestDto.getContents().replace("\r\n","<br>"))
+                .nickname(userDetails.getUser().getNickname())
+                .url(requestDto.getUrl())
+                .year(requestDto.getYear())
+                .build();
+        return boardRepository.save(board);
     }
 
     @Transactional  //update 할때 필수
-    public Long update(Long id, String username, BoardRequestDto requestDto) {
+    public ResponseEntity update(Long id, String nickname, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
         );
-        if (board.getUsername().equals(username)) {
+        if (board.getNickname().equals(nickname)) {
             board.update(requestDto, id);
             boardRepository.save(board);
-            return id;
-        } else{
+            return new ResponseEntity("수정 완료", HttpStatus.OK);
+        } else {
             throw new IllegalArgumentException("수정 불가능한 게시글입니다.");
         }
     }
 
-    public Long delete(Long id, String username) {
+    @Transactional
+    public ResponseEntity delete(Long id, String nickname) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
         );
-        if (board.getUsername().equals(username)) {
-            board.delete(id);
+        if (board.getNickname().equals(nickname)) {
             boardRepository.delete(board);
-            return id;
+            return new ResponseEntity("삭제완료", HttpStatus.OK);
         } else {
             throw new IllegalArgumentException("삭제 불가능한 게시글입니다.");
         }
     }
 
-    public Board getBoard(Long id) {
-        Optional<Board> board = boardRepository.findById(id);
-        if (board.isPresent()) {
-            return board.get();
-        } else {
-            throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
+    @Transactional
+    public BoardResponseDto getBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+        );
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+        for (Comment comment : board.getComments()) {
+            CommentResponseDto commentResponseDto = new CommentResponseDto(
+                    comment.getId(),
+                    comment.getUser().getNickname(),
+                    comment.getComment(),
+                    comment.getCreatedAt()
+            );
+            commentResponseDtos.add(commentResponseDto);
         }
+        return new BoardResponseDto(
+                board.getId(),
+                board.getNickname(),
+                board.getTitle(),
+                board.getContents(),
+                board.getUrl(),
+                board.getYear(),
+                board.getCreatedAt(),
+                board.getModifiedAt(),
+                commentResponseDtos
+        );
     }
 
-    public List<Board> getAllBoards() {
-        return boardRepository.findAllByOrderByModifiedAtDesc();
-    }
+    @Transactional
+    public List<BoardResponseDto> getAllBoards() {
+        List<Board> boards = boardRepository.findAllByOrderByModifiedAtDesc();
+        List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 
-    public List<Board> getBoardsByYear(Long year){
-        return boardRepository.findAllByYear(year);
+        for (Board board : boards) {
+            List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+            for (Comment comment : board.getComments()) {
+                CommentResponseDto commentResponseDto = new CommentResponseDto(
+                        comment.getId(),
+                        comment.getUser().getNickname(),
+                        comment.getComment(),
+                        comment.getCreatedAt()
+                );
+                commentResponseDtos.add(commentResponseDto);
+            }
+            BoardResponseDto boardResponseDto = new BoardResponseDto(
+                    board.getId(),
+                    board.getNickname(),
+                    board.getTitle(),
+                    board.getContents(),
+                    board.getUrl(),
+                    board.getYear(),
+                    board.getCreatedAt(),
+                    board.getModifiedAt(),
+                    commentResponseDtos
+                    );
+            boardResponseDtos.add(boardResponseDto);
+        }
+        return boardResponseDtos;
+    }
+    @Transactional
+    public List<BoardResponseDto> getBoardsByYear(Long year) {
+        List<Board> boards = boardRepository.findAllByYear(year);
+        List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
+
+        for (Board board : boards) {
+            List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+            for (Comment comment : board.getComments()) {
+                CommentResponseDto commentResponseDto = new CommentResponseDto(
+                        comment.getId(),
+                        comment.getUser().getNickname(),
+                        comment.getComment(),
+                        comment.getCreatedAt()
+                );
+                commentResponseDtos.add(commentResponseDto);
+            }
+            BoardResponseDto boardResponseDto = new BoardResponseDto(
+                    board.getId(),
+                    board.getNickname(),
+                    board.getTitle(),
+                    board.getContents(),
+                    board.getUrl(),
+                    board.getYear(),
+                    board.getCreatedAt(),
+                    board.getModifiedAt(),
+                    commentResponseDtos
+            );
+            boardResponseDtos.add(boardResponseDto);
+        }
+        return boardResponseDtos;
     }
 }

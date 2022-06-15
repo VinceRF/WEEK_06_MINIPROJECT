@@ -1,8 +1,7 @@
 package horse.latte.model;
 
-import horse.latte.dto.LoveRequestDto;
+import horse.latte.dto.request.LoveRequestDto;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 
