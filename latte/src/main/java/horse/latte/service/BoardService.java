@@ -64,7 +64,7 @@ public class BoardService {
     }
 
     @Transactional
-    public ResponseEntity getBoard(Long id) {
+    public BoardResponseDto getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
         );
@@ -78,7 +78,7 @@ public class BoardService {
             );
             commentResponseDtos.add(commentResponseDto);
         }
-        new BoardResponseDto(
+        return new BoardResponseDto(
                 board.getId(),
                 board.getNickname(),
                 board.getTitle(),
@@ -89,7 +89,6 @@ public class BoardService {
                 board.getModifiedAt(),
                 commentResponseDtos
         );
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
