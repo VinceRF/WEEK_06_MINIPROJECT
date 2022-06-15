@@ -23,7 +23,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Board createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
+    public ResponseEntity createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         //요정받은 DTO로 DB에 저장할 객체 만들기
         Board board = Board.builder()
                 .title(requestDto.getTitle())
@@ -32,7 +32,8 @@ public class BoardService {
                 .url(requestDto.getUrl())
                 .year(requestDto.getYear())
                 .build();
-        return boardRepository.save(board);
+        boardRepository.save(board);
+        return new ResponseEntity("등록 성공", HttpStatus.OK);
     }
 
     @Transactional  //update 할때 필수
@@ -63,7 +64,7 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponseDto getBoard(Long id) {
+    public ResponseEntity getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
         );
@@ -77,7 +78,7 @@ public class BoardService {
             );
             commentResponseDtos.add(commentResponseDto);
         }
-        return new BoardResponseDto(
+        new BoardResponseDto(
                 board.getId(),
                 board.getNickname(),
                 board.getTitle(),
@@ -88,6 +89,7 @@ public class BoardService {
                 board.getModifiedAt(),
                 commentResponseDtos
         );
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
