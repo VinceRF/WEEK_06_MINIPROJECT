@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.security.UserDetailsImpl;
 import lombok.Builder;
@@ -61,7 +62,6 @@ public class Board extends Timestamped {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Comment> comments;
-
 
     public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         this.title = requestDto.getTitle();
