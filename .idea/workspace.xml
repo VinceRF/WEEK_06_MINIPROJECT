@@ -5,28 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bfd3035-90e2-4c1f-ad95-1ca257d9f2f5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/response/BoardResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/CommentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/LoveController.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/LoveController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/BoardRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/BoardRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/CommentRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/CommentRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/LoginRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/LoginRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/LoveRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/LoveRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/LoveResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/LoveResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/request/SignupRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/response/CommentResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/dto/response/CommentResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Love.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/model/Love.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/BoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/CommentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/LoveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/LoveService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latte/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +86,7 @@
       <recent name="horse.latte.security" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.latte [build]">
+  <component name="RunManager" selected="Spring Boot.LatteApplication">
     <configuration name="latte [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -149,7 +132,7 @@
       <workItem from="1655168247608" duration="27000" />
       <workItem from="1655183841683" duration="3987000" />
       <workItem from="1655188802483" duration="22209000" />
-      <workItem from="1655262756095" duration="597000" />
+      <workItem from="1655262756095" duration="4692000" />
     </task>
     <servers />
   </component>
