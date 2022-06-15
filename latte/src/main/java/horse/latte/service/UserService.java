@@ -1,6 +1,7 @@
 package horse.latte.service;
 
 import horse.latte.dto.request.SignupRequestDto;
+import horse.latte.dto.response.SignupResponseDto;
 import horse.latte.exceptionhandler.*;
 import horse.latte.model.User;
 import horse.latte.repository.UserRepository;
@@ -11,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -27,6 +31,11 @@ public class UserService {
         String password2 = requestDto.getPassword2();
         String password = requestDto.getPassword();
         String profileUrl = requestDto.getProfileUrl();
+
+        SignupResponseDto signResponseDto = new SignupResponseDto(
+                requestDto.getUsername(), requestDto.getNickname(), requestDto.getProfileUrl(), "회원가입 성공");
+        List<SignupResponseDto> signupResponseDtoList = new ArrayList<>();
+        signupResponseDtoList.add(signResponseDto);
 
         String username = requestDto.getUsername();
         Optional<User> found = userRepository.findByUsername(username);
@@ -66,7 +75,8 @@ public class UserService {
 
         User user = new User(username, nickname, password, profileUrl);
         userRepository.save(user);
-        return new ResponseEntity("회원가입 성공", HttpStatus.OK);
+
+        return new ResponseEntity(signupResponseDtoList, HttpStatus.OK);
     }
 }
 
