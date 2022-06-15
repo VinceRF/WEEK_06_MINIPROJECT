@@ -4,6 +4,7 @@ package horse.latte.service;
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.dto.response.BoardResponseDto;
 import horse.latte.dto.response.CommentResponseDto;
+import horse.latte.exceptionhandler.NotAuthorizedException;
 import horse.latte.exceptionhandler.NotExistException;
 import horse.latte.model.Board;
 import horse.latte.model.Comment;
@@ -65,7 +66,7 @@ public class BoardService {
     }
 
     @Transactional
-    public ResponseEntity getBoard(Long id) {
+    public BoardResponseDto getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new NotExistException()
         );
@@ -79,7 +80,7 @@ public class BoardService {
             );
             commentResponseDtos.add(commentResponseDto);
         }
-        new BoardResponseDto(
+        return new BoardResponseDto(
                 board.getId(),
                 board.getNickname(),
                 board.getTitle(),
@@ -90,7 +91,6 @@ public class BoardService {
                 board.getModifiedAt(),
                 commentResponseDtos
         );
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
