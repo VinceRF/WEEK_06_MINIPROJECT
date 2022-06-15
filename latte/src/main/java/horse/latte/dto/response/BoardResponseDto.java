@@ -17,7 +17,7 @@ public class BoardResponseDto {
     private String title;
     private String contents;
     private String url;
-    private Long year;
+    private String year;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
