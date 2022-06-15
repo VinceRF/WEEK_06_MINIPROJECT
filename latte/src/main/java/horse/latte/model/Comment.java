@@ -1,10 +1,7 @@
 package horse.latte.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import horse.latte.dto.CommentRequestDto;
+import horse.latte.dto.request.CommentRequestDto;
 import horse.latte.security.UserDetailsImpl;
-import horse.latte.security.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
