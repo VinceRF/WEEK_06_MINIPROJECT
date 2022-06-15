@@ -10,6 +10,8 @@ import horse.latte.repository.BoardRepository;
 import horse.latte.repository.LoveRepository;
 import horse.latte.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,7 @@ public class LoveService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public LoveResponseDto postLove(Long boardId, String nickname) {
+    public ResponseEntity postLove(Long boardId, String nickname) {
         User user = userRepository.findByNickname(nickname).orElseThrow(
                 () -> new ApiRequestException("좋아요를 찾는 유저정보가 없습니다."));
 
@@ -38,8 +40,8 @@ public class LoveService {
         } else {
             loveRepository.deleteByBoard(findLove.getBoard());
         }
-
-        return new LoveResponseDto(boardId, loveRepository.countByBoard(board));
+        new LoveResponseDto(boardId, loveRepository.countByBoard(board));
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
 
