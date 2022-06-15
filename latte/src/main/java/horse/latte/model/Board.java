@@ -60,7 +60,7 @@ public class Board extends Timestamped {
     }
 
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
