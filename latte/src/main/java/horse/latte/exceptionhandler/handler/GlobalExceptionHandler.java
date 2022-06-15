@@ -75,4 +75,10 @@ public class GlobalExceptionHandler {
     public ErrorResponse NotAuthorizedException(NotAuthorizedException ex) {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotExistException.class)
+    public ErrorResponse NotExistException(NotExistException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 }
