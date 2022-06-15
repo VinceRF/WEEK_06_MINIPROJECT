@@ -1,8 +1,7 @@
 package horse.latte.service;
 
 import horse.latte.dto.request.SignupRequestDto;
-import horse.latte.exceptionhandler.DuplicateUsernameException;
-import horse.latte.exceptionhandler.DuplicationNicknameException;
+import horse.latte.exceptionhandler.*;
 import horse.latte.model.User;
 import horse.latte.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,38 +25,45 @@ public class UserService {
         String password2 = requestDto.getPassword2();
         String success = "회원가입 성공";
         String password = requestDto.getPassword();
+        String profileUrl = requestDto.getProfileUrl();
 
         String username = requestDto.getUsername();
         Optional<User> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
-            throw new DuplicateUsernameException("중복된 사용자 ID 가 존재합니다.");
+            throw new DuplicateUsernameException();
         }
         String nickname = requestDto.getNickname();
         Optional<User> found1 = userRepository.findByNickname(nickname);
         if (found1.isPresent()) {
-            throw new DuplicationNicknameException("중복된 사용자 닉네임이 존재합니다.");
+            throw new DuplicationNicknameException();
         }
 
 //         회원가입 조건
         if (username.length() < 4) {
-            return "ID를 4자 이상 입력하세요";
-        } else if (!Pattern.matches(pattern, username)) {
-            return "알파벳 대소문자와 숫자로만 입력하세요";
-        } else if (!password.equals(password2)) {
-            return "비밀번호가 일치하지 않습니다";
-        } else if (password.length() < 8) {
-            return "비밀번호를 8자 이상 입력하세요";
-        } else if (password.contains(username)) {
-            return "비밀번호에 ID를 포함할 수 없습니다.";
-        } else if (nickname.equals("")) {
-            return "닉네임을 입력해 주세요.";
-        } else if (nickname.equals(null)) {
-            return "닉네임을 입력해 주세요.";
+            throw new UsernameLengthException();
+        }
+        if (!Pattern.matches(pattern, username)) {
+            throw new UsernamePatternException();
+        }
+        if (!password.equals(password2)) {
+            throw new PasswordNotMatchException();
+        }
+        if (password.length() < 8) {
+            throw new PasswordLengthException();
+        }
+        if (password.contains(username)) {
+            throw new PasswordContainsUsernameException();
+        }
+        if (nickname.equals("")) {
+            throw new NicknameEmptyException();
+        }
+        if (nickname.equals(null)) {
+            throw new NicknameEmptyException();
         }
 
         password = passwordEncoder.encode(requestDto.getPassword());//비번 인코딩
 
-        User user = new User(username, nickname, password);
+        User user = new User(username, nickname, password, profileUrl);
         userRepository.save(user);
         return success;
     }
