@@ -125,7 +125,7 @@ public class BoardService {
         return boardResponseDtos;
     }
     @Transactional
-    public List<BoardResponseDto> getBoardsByYear(Long year) {
+    public List<BoardResponseDto> getBoardsByYear(String year) {
         List<Board> boards = boardRepository.findAllByYear(year);
         List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 

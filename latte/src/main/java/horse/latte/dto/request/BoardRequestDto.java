@@ -7,5 +7,5 @@ public class BoardRequestDto {
     private String title;
     private String contents;
     private String url;
-    private Long year;
+    private String year;
 }

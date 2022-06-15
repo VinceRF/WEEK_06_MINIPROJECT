@@ -36,4 +36,5 @@ public class User extends Timestamped {
         this.password = password;
         this.profileUrl = profileUrl;
     }
+
 }

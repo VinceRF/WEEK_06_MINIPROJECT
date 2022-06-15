@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findAllByOrderByModifiedAtDesc();
-    List<Board> findAllByYear(Long year);
+    List<Board> findAllByYear(String year);
 //    List<Board> findAllByUserId(Long userId);
     Optional<Board> findById(Long id);
 
