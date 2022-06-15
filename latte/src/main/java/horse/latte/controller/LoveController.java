@@ -18,7 +18,7 @@ public class LoveController {
 
     //좋아요 기능구현
     @PostMapping("/api/board/{boardId}/like")
-    public ResponseEntity<LoveResponseDto> postLove(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity postLove(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.ok().body(loveService.love(boardId, userDetails.getUsername()));
     }
 }
