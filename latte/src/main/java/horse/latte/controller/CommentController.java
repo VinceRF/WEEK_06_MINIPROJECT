@@ -1,9 +1,7 @@
 package horse.latte.controller;
 
-import horse.latte.dto.CommentRequestDto;
+import horse.latte.dto.request.CommentRequestDto;
 import horse.latte.dto.response.CommentResponseDto;
-import horse.latte.model.Comment;
-import horse.latte.repository.CommentRepository;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.CommentService;
 import lombok.RequiredArgsConstructor;
