@@ -1,4 +1,4 @@
-package horse.latte.dto;
+package horse.latte.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,5 +10,6 @@ public class SignupRequestDto {
     private String nickname;
     private String password;
     private String password2;
+    private String profileUrl;
 }
 

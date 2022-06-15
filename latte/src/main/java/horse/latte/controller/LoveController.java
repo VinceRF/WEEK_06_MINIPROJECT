@@ -1,6 +1,7 @@
 package horse.latte.controller;
 
-import horse.latte.dto.response.LoveResponseDto;
+
+import horse.latte.dto.request.LoveResponseDto;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.LoveService;
 import lombok.RequiredArgsConstructor;
