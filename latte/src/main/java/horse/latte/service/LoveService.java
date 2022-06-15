@@ -27,7 +27,6 @@ public class LoveService {
     private final BoardRepository boardRepository;
 
     @Transactional
-
     public ResponseEntity love(Long boardId, String username){
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new ApiRequestException("유저가 없습니다.")
@@ -43,11 +42,11 @@ public class LoveService {
             LoveRequestDto loveRequestDto = new LoveRequestDto(user, board);
             Love love = new Love(loveRequestDto);
             loveRepository.save(love);
+            return new ResponseEntity("좋아요",HttpStatus.OK);
         } else {
             loveRepository.deleteByboard(findLove.getBoard());
+            return new ResponseEntity("좋아요 취소",HttpStatus.OK);
         }
-        new LoveResponseDto(boardId, loveRepository.countByBoard(board));
-        return new ResponseEntity(HttpStatus.OK);
     }
 }
 
