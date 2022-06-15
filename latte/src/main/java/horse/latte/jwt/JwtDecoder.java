@@ -22,8 +22,8 @@ public class JwtDecoder {
 
     public String decodeUsername(String token) throws TokenInvalidException {
 
-        String username;
-        try {
+//        String username;
+//        try {
             DecodedJWT decodedJWT = isValidToken(token)
                     .orElseThrow(() -> new TokenInvalidException("유효한 토큰이 아닙니다."));
 
@@ -36,12 +36,12 @@ public class JwtDecoder {
                 throw new TokenInvalidException("토큰의 유효시간이 끝났습니다.");
             }
 
-            username = decodedJWT
+            String username = decodedJWT
                     .getClaim(CLAIM_USER_NAME)
                     .asString();
-        }catch (TokenInvalidException e){
-            throw new TokenInvalidException("유효한 토큰이 아닙니다.");
-        }
+//        }catch (TokenInvalidException e){
+//            throw new TokenInvalidException("유효한 토큰이 아닙니다.");
+//        }
         return username;
     }
 
