@@ -4,6 +4,8 @@ package horse.latte.service;
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.dto.response.BoardResponseDto;
 import horse.latte.dto.response.CommentResponseDto;
+import horse.latte.exceptionhandler.NotAuthorizedException;
+import horse.latte.exceptionhandler.NotExistException;
 import horse.latte.model.Board;
 import horse.latte.model.Comment;
 import horse.latte.repository.BoardRepository;
@@ -23,7 +25,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Board createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
+    public ResponseEntity createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         //요정받은 DTO로 DB에 저장할 객체 만들기
         Board board = Board.builder()
                 .title(requestDto.getTitle())
@@ -32,40 +34,41 @@ public class BoardService {
                 .url(requestDto.getUrl())
                 .year(requestDto.getYear())
                 .build();
-        return boardRepository.save(board);
+        boardRepository.save(board);
+        return new ResponseEntity("등록 성공", HttpStatus.OK);
     }
 
     @Transactional  //update 할때 필수
     public ResponseEntity update(Long id, String nickname, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         if (board.getNickname().equals(nickname)) {
             board.update(requestDto, id);
             boardRepository.save(board);
             return new ResponseEntity("수정 완료", HttpStatus.OK);
         } else {
-            throw new IllegalArgumentException("수정 불가능한 게시글입니다.");
+            throw new NotAuthorizedException("수정 불가한 게시글입니다.");
         }
     }
 
     @Transactional
     public ResponseEntity delete(Long id, String nickname) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         if (board.getNickname().equals(nickname)) {
             boardRepository.delete(board);
             return new ResponseEntity("삭제완료", HttpStatus.OK);
         } else {
-            throw new IllegalArgumentException("삭제 불가능한 게시글입니다.");
+            throw new NotAuthorizedException("삭제 불가한 게시글입니다.");
         }
     }
 
     @Transactional
     public BoardResponseDto getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         for (Comment comment : board.getComments()) {
@@ -122,7 +125,7 @@ public class BoardService {
         return boardResponseDtos;
     }
     @Transactional
-    public List<BoardResponseDto> getBoardsByYear(Long year) {
+    public List<BoardResponseDto> getBoardsByYear(String year) {
         List<Board> boards = boardRepository.findAllByYear(year);
         List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 
