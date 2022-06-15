@@ -1,5 +1,6 @@
 package horse.latte.service;
 
+
 import horse.latte.dto.request.LoveRequestDto;
 import horse.latte.dto.request.LoveResponseDto;
 import horse.latte.exceptionhandler.ApiRequestException;
@@ -9,12 +10,14 @@ import horse.latte.model.User;
 import horse.latte.repository.BoardRepository;
 import horse.latte.repository.LoveRepository;
 import horse.latte.repository.UserRepository;
+import horse.latte.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+
 @RequiredArgsConstructor
+@Service
 public class LoveService {
 
     private final LoveRepository loveRepository;
@@ -22,24 +25,29 @@ public class LoveService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public LoveResponseDto postLove(Long boardId, String nickname) {
-        User user = userRepository.findByNickname(nickname).orElseThrow(
-                () -> new ApiRequestException("좋아요를 찾는 유저정보가 없습니다."));
+    public LoveResponseDto love(Long boardId, String username){
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new ApiRequestException("유저가 없습니다.")
+        );
 
         Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new ApiRequestException("찾는 글이 없습니다."));
+                () -> new ApiRequestException("글번호가 없습니다.")
+        );
 
-        Love findLove = loveRepository.findLovesByUserAndBoard(user, board).orElseThrow(null);
+        Love findLove = loveRepository.findByUserAndBoard(user, board).orElse(null);
 
         if(findLove == null){
             LoveRequestDto loveRequestDto = new LoveRequestDto(user, board);
             Love love = new Love(loveRequestDto);
             loveRepository.save(love);
         } else {
-            loveRepository.deleteByBoard(findLove.getBoard());
+            loveRepository.deleteByboard(findLove.getBoard());
         }
 
         return new LoveResponseDto(boardId, loveRepository.countByBoard(board));
     }
 }
 
+//ResponseDto { private T responseData; //여기에 많이 들어가도됨
+// private String statusCode;
+// private String errorMessage; }

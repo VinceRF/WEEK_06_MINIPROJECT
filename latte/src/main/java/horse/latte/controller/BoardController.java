@@ -21,6 +21,7 @@ public class BoardController {
 
     // 게시글 조회 및 연도별 카테고리 조회
     @GetMapping("/api/boards")
+
     public List<BoardResponseDto> readBoard(@RequestParam(required = false) Long year) {
         if (year != null) {
             return boardService.getBoardsByYear(year);

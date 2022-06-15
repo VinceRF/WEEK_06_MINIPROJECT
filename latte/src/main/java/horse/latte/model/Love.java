@@ -7,24 +7,25 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Love {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardLoveId;
-
-    //어떤 유저가 좋아요 하는지
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private User user;
-
-    //어떤 게시물을 좋아요 하는지
-    @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "board_id")
     private Board board;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Love(LoveRequestDto loveRequestDto) {
-        this.user = loveRequestDto.getUser();
         this.board = loveRequestDto.getBoard();
+        this.user = loveRequestDto.getUser();
     }
 }
