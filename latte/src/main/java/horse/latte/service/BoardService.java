@@ -4,6 +4,7 @@ package horse.latte.service;
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.dto.response.BoardResponseDto;
 import horse.latte.dto.response.CommentResponseDto;
+import horse.latte.exceptionhandler.NotExistException;
 import horse.latte.model.Board;
 import horse.latte.model.Comment;
 import horse.latte.repository.BoardRepository;
@@ -39,34 +40,34 @@ public class BoardService {
     @Transactional  //update 할때 필수
     public ResponseEntity update(Long id, String nickname, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         if (board.getNickname().equals(nickname)) {
             board.update(requestDto, id);
             boardRepository.save(board);
             return new ResponseEntity("수정 완료", HttpStatus.OK);
         } else {
-            throw new IllegalArgumentException("수정 불가능한 게시글입니다.");
+            throw new NotAuthorizedException("수정 불가한 게시글입니다.");
         }
     }
 
     @Transactional
     public ResponseEntity delete(Long id, String nickname) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         if (board.getNickname().equals(nickname)) {
             boardRepository.delete(board);
             return new ResponseEntity("삭제완료", HttpStatus.OK);
         } else {
-            throw new IllegalArgumentException("삭제 불가능한 게시글입니다.");
+            throw new NotAuthorizedException("삭제 불가한 게시글입니다.");
         }
     }
 
     @Transactional
     public ResponseEntity getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글입니다.")
+                () -> new NotExistException()
         );
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         for (Comment comment : board.getComments()) {

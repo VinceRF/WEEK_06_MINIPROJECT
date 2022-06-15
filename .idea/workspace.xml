@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bfd3035-90e2-4c1f-ad95-1ca257d9f2f5" name="Changes" comment="" />
+    <list default="true" id="0bfd3035-90e2-4c1f-ad95-1ca257d9f2f5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/exceptionhandler/NotExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/BoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/latte/src/main/java/horse/latte/service/BoardService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +50,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -53,6 +64,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2AXuR4wvAtNjLui000Vx888jr1K" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -126,7 +140,7 @@
       <workItem from="1655168247608" duration="27000" />
       <workItem from="1655183841683" duration="3987000" />
       <workItem from="1655188802483" duration="22209000" />
-      <workItem from="1655262756095" duration="5470000" />
+      <workItem from="1655262756095" duration="6259000" />
     </task>
     <servers />
   </component>
