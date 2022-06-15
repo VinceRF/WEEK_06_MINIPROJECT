@@ -5,6 +5,8 @@ import horse.latte.exceptionhandler.*;
 import horse.latte.model.User;
 import horse.latte.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,9 @@ public class UserService {
 
     //회원가입
     @Transactional
-    public String signup(SignupRequestDto requestDto) {
+    public ResponseEntity signup(SignupRequestDto requestDto) {
         String pattern = "^[a-zA-Z0-9]*$";
         String password2 = requestDto.getPassword2();
-        String success = "회원가입 성공";
         String password = requestDto.getPassword();
         String profileUrl = requestDto.getProfileUrl();
 
@@ -65,7 +66,7 @@ public class UserService {
 
         User user = new User(username, nickname, password, profileUrl);
         userRepository.save(user);
-        return success;
+        return new ResponseEntity("회원가입 성공", HttpStatus.OK);
     }
 }
 
