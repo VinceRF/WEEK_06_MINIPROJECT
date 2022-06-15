@@ -56,7 +56,7 @@ public class JwtDecoder {
                     .require(algorithm)
                     .build();
 
-            jwt = verifier.verify(token);
+            jwt = verifier.verify(token.substring(7));
         } catch (Exception e) {
             log.error(e.getMessage());
         }

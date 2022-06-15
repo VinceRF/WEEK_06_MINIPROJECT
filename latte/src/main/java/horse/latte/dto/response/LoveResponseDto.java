@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class LoveResponseDto {
     private Long boardId;
-    private Long totalLike;
+    private Long totalLove;
 
-    public LoveResponseDto(Long boardId, Long totalLike) {
-        this.boardId = boardId;
-        this.totalLike = totalLike;
+    public LoveResponseDto(Long id, Long totalLove) {
+        this.boardId = id;
+        this.totalLove = totalLove;
     }
 }
