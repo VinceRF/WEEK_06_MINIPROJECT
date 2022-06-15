@@ -3,6 +3,7 @@ package horse.latte.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import horse.latte.dto.BoardRequestDto;
+import horse.latte.dto.response.CommentResponseDto;
 import horse.latte.security.UserDetailsImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,7 +47,6 @@ public class Board extends Timestamped {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-
 
     public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         this.title = requestDto.getTitle();

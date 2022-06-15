@@ -20,7 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     // 게시글 조회 및 연도별 카테고리 조회
-    @GetMapping("/api/board")
+    @GetMapping("/api/boards")
     public List<Board> readBoard(@RequestParam(required = false) Long year) {
         if (year != null) {
             return boardService.getBoardsByYear(year);
@@ -29,7 +29,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/api/board")
+    @PostMapping("/api/board/write")
     public Board createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인 되어 있는 회원 테이블의 ID
         return boardService.createBoard(requestDto, userDetails);
