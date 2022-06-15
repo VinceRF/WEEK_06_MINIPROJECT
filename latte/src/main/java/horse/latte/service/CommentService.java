@@ -1,6 +1,6 @@
 package horse.latte.service;
 
-import horse.latte.dto.CommentRequestDto;
+import horse.latte.dto.request.CommentRequestDto;
 import horse.latte.dto.response.CommentResponseDto;
 import horse.latte.model.Board;
 import horse.latte.model.Comment;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

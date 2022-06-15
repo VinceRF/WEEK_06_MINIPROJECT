@@ -1,4 +1,4 @@
-package horse.latte.dto;
+package horse.latte.dto.request;
 
 import lombok.Getter;
 
