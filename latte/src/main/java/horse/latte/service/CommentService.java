@@ -54,8 +54,8 @@ public class CommentService {
         for(Comment comment : comments){
             CommentResponseDto commentResponseDto = new CommentResponseDto(
                     comment.getId(),
-                    comment.getUser().getNickname(),
                     comment.getComment(),
+                    comment.getUser().getNickname(),
                     comment.getCreatedAt()
             );
             commentResponseDtos.add(commentResponseDto);
