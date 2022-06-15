@@ -57,4 +57,22 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleNicknameEmptyException(NicknameEmptyException ex) {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardNotFoundException.class)
+    public ErrorResponse BoardNotFoundException(BoardNotFoundException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ErrorResponse CommentNotFoundException(CommentNotFoundException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotAuthorizedException.class)
+    public ErrorResponse NotAuthorizedException(NotAuthorizedException ex) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 }
