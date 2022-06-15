@@ -93,7 +93,7 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardResponseDto> getAllBoards() {
+    public ResponseEntity <List<BoardResponseDto>> getAllBoards() {
         List<Board> boards = boardRepository.findAllByOrderByModifiedAtDesc();
         List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 
@@ -121,10 +121,10 @@ public class BoardService {
                     );
             boardResponseDtos.add(boardResponseDto);
         }
-        return boardResponseDtos;
+        return new ResponseEntity(HttpStatus.OK);
     }
     @Transactional
-    public List<BoardResponseDto> getBoardsByYear(Long year) {
+    public ResponseEntity <List<BoardResponseDto>> getBoardsByYear(Long year) {
         List<Board> boards = boardRepository.findAllByYear(year);
         List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 
@@ -152,6 +152,6 @@ public class BoardService {
             );
             boardResponseDtos.add(boardResponseDto);
         }
-        return boardResponseDtos;
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

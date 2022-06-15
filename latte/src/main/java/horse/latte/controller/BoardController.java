@@ -3,7 +3,6 @@ package horse.latte.controller;
 
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.dto.response.BoardResponseDto;
-import horse.latte.model.Board;
 import horse.latte.security.UserDetailsImpl;
 import horse.latte.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class BoardController {
 
     // 게시글 조회 및 연도별 카테고리 조회
     @GetMapping("/api/boards")
-    public ResponseEntity <List<BoardResponseDto>> readBoard(@RequestParam(required = false) Long year) {
+    public ResponseEntity<List<BoardResponseDto>> readBoard(@RequestParam(required = false) Long year) {
         if (year != null) {
             return ResponseEntity.ok().body(boardService.getBoardsByYear(year));
         } else {

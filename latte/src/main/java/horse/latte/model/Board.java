@@ -1,7 +1,10 @@
 package horse.latte.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.security.UserDetailsImpl;
 import lombok.Builder;
@@ -35,6 +38,18 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private Long year;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+//    public Board(String title, String contents, String username, String url, Long year) {
+//        this.title = title;
+//        this.contents = contents.replace("\r\n","<br>");
+//        this.username = username;
+//        this.url = url;
+//        this.year = year;
+//    }
+
     @Builder
     public Board(String title, String contents, String nickname, String url, Long year) {
         this.title = title;
@@ -47,7 +62,6 @@ public class Board extends Timestamped {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Comment> comments;
-
 
     public Board(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
         this.title = requestDto.getTitle();
