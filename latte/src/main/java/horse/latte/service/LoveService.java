@@ -20,7 +20,6 @@ import java.util.Optional;
 public class LoveService {
 
     private final LoveRepository loveRepository;
-    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
     //좋아요
