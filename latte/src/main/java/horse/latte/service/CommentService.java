@@ -48,7 +48,7 @@ public class CommentService {
                 () -> new BoardNotFoundException("존재하지 않는 게시글입니다.")
         );
 
-        List<Comment> comments = commentRepository.findAll();
+        List<Comment> comments = commentRepository.findAllByBoardId(boardId);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
         for(Comment comment : comments){
