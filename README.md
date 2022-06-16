@@ -15,7 +15,7 @@
 
 🍰 **[라떼월드 서비스 바로가기](http://sparta-csh.shop.s3-website.ap-northeast-2.amazonaws.com/)**
 
-🎬 **[서비스 시연 및 발표 영상]()**
+🎬 **[서비스 시연 및 발표 영상](https://www.youtube.com/watch?v=bS6OVC3JLwY)**
 
 <br />
 
