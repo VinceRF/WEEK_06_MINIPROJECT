@@ -16,7 +16,7 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping("/api/board/{boardId}/comment/write")
+    @PostMapping("/api/board/{id}/comment/write")
     public ResponseEntity createComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         //Error: Exceeded maxRedirects. Probably stuck in a
         // redirect loop http://localhost:8080/api/user/loginView
@@ -25,19 +25,19 @@ public class CommentController {
         return ResponseEntity.ok().body(commentService.save(requestDto, userDetails, boardId));
     }
 
-    @GetMapping("/api/board/{boardId}/comments")
+    @GetMapping("/api/board/{id}/comments")
     public ResponseEntity getComment(@PathVariable Long boardId) {
         return ResponseEntity.ok().body(commentService.find(boardId));
     }
 
-    @PutMapping("/api/board/{boardId}/comment/{commentId}")
+    @PutMapping("/api/board/{id}/comment/{commentId}")
     public ResponseEntity editComment(@RequestBody CommentRequestDto requestDto, @PathVariable Long boardId,
                                       @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         return ResponseEntity.ok().body(commentService.edit(requestDto, commentId, boardId, userDetails));
     }
 
-    @DeleteMapping("/api/board/{boardId}/comment/{commentId}")
+    @DeleteMapping("/api/board/{id}/comment/{commentId}")
     public ResponseEntity deleteComment(@PathVariable Long boardId, @PathVariable Long commentId,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails){
 

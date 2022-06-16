@@ -1,6 +1,5 @@
 package horse.latte.model;
 
-import horse.latte.dto.request.LoveRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
