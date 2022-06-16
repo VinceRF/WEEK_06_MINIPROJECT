@@ -149,10 +149,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //메인페이지 스킵!
         skipPathList.add("GET,/api/user/**");
-        skipPathList.add("GET,/api/**");
+//        skipPathList.add("GET,/api/**");
+
+        skipPathList.add("GET,/api/boards");
 
         // 댓글 조회 허용
-        skipPathList.add("GET,/api/board/**/detail/comments");
+        skipPathList.add("GET,/api/board/**/comments");
 
         // 게시글 조회 허용
         skipPathList.add("GET,/api/board/**");
