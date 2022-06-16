@@ -38,6 +38,14 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String year;
 
+    //좋아요 구현
+    @Column
+    private int loveCount;
+
+    @JsonIgnoreProperties({"board"})
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Love> LoveList;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -32,6 +32,7 @@ public class UserService {
         String password = requestDto.getPassword();
         String profileUrl = requestDto.getProfileUrl();
 
+        //회원가입시 body 에 SignupResponseDto 를 리스트로 건네줌
         SignupResponseDto signResponseDto = new SignupResponseDto(
                 requestDto.getUsername(), requestDto.getNickname(), requestDto.getProfileUrl(), "회원가입 성공");
         List<SignupResponseDto> signupResponseDtoList = new ArrayList<>();
