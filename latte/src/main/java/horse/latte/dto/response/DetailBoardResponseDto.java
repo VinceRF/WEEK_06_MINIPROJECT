@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardResponseDto {
+public class DetailBoardResponseDto {
     private Long id;
     private String nickname;
     private String title;
@@ -20,6 +21,8 @@ public class BoardResponseDto {
     private String year;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    private boolean love;
 
     List<CommentResponseDto> commentResponseDto;
 }

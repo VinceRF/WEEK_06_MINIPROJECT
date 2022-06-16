@@ -4,10 +4,12 @@ package horse.latte.service;
 import horse.latte.dto.request.BoardRequestDto;
 import horse.latte.dto.response.BoardResponseDto;
 import horse.latte.dto.response.CommentResponseDto;
+import horse.latte.dto.response.DetailBoardResponseDto;
 import horse.latte.exceptionhandler.NotAuthorizedException;
 import horse.latte.exceptionhandler.NotExistException;
 import horse.latte.model.Board;
 import horse.latte.model.Comment;
+import horse.latte.model.Love;
 import horse.latte.repository.BoardRepository;
 import horse.latte.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +68,7 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponseDto getBoard(Long id) {
+    public DetailBoardResponseDto getBoard(Long id, UserDetailsImpl userDetails) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new NotExistException()
         );
@@ -80,7 +82,15 @@ public class BoardService {
             );
             commentResponseDtos.add(commentResponseDto);
         }
-        return new BoardResponseDto(
+
+
+        boolean checkLove = false;
+        for(Love love : board.getLoveList()) {
+            if (userDetails.getUser().getNickname() == love.getUser().getNickname() && board.getId() == love.getBoard().getId())
+                checkLove = true;
+        }
+
+        return new DetailBoardResponseDto(
                 board.getId(),
                 board.getNickname(),
                 board.getTitle(),
@@ -89,6 +99,7 @@ public class BoardService {
                 board.getYear(),
                 board.getCreatedAt(),
                 board.getModifiedAt(),
+                checkLove,
                 commentResponseDtos
         );
     }
@@ -125,7 +136,7 @@ public class BoardService {
         return boardResponseDtos;
     }
     @Transactional
-    public List<BoardResponseDto> getBoardsByYear(Long year) {
+    public List<BoardResponseDto> getBoardsByYear(String year) {
         List<Board> boards = boardRepository.findAllByYear(year);
         List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
 

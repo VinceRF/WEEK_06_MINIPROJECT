@@ -36,7 +36,14 @@ public class Board extends Timestamped {
     private String url;
 
     @Column(nullable = false)
-    private Long year;
+    private String year;
+
+    //좋아요 구현
+    @Column
+    private int loveCount;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Love> LoveList;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -51,7 +58,7 @@ public class Board extends Timestamped {
 //    }
 
     @Builder
-    public Board(String title, String contents, String nickname, String url, Long year) {
+    public Board(String title, String contents, String nickname, String url, String year) {
         this.title = title;
         this.contents = contents.replace("\r\n","<br>");
         this.nickname = nickname;

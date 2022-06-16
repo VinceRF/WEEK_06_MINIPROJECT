@@ -11,7 +11,22 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findAllByOrderByModifiedAtDesc();
-    List<Board> findAllByYear(Long year);
+    List<Board> findAllByYear(String year);
 //    List<Board> findAllByUserId(Long userId);
     Optional<Board> findById(Long id);
+
+
+
+    @Transactional
+    @Modifying
+    @Query("update Board m set m.loveCount = m.loveCount+1 where m.id = :id")
+    int uplikeCount(Long id);
+    //해당 아이디의 카운터를 1 업,
+
+    @Transactional
+    @Modifying
+    @Query("update Board m set m.loveCount = m.loveCount-1 where m.id = :id")
+    int downlikeCount(Long id);
+    //해당 아이디의 카운터를 1 다운.,
+    
 }

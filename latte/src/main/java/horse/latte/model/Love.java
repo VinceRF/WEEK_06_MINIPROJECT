@@ -1,6 +1,5 @@
 package horse.latte.model;
 
-import horse.latte.dto.request.LoveRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,8 +23,8 @@ public class Love {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Love(LoveRequestDto loveRequestDto) {
-        this.board = loveRequestDto.getBoard();
-        this.user = loveRequestDto.getUser();
+    public Love(Board board, User user) {
+        this.board = board;
+        this.user = user;
     }
 }
