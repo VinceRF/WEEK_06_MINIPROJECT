@@ -38,7 +38,7 @@ public class LoveService {
             loveRepository.deleteLovesByUserAndBoard(click.get().getUser(),board);
             boardRepository.downlikeCount(board.getId());
             return false;
-        } else {
+        }else {
             //좋아요 하기
             Love love = new Love(board,user);
             loveRepository.save(love);

@@ -42,7 +42,6 @@ public class Board extends Timestamped {
     @Column
     private int loveCount;
 
-    @JsonIgnoreProperties({"board"})
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Love> LoveList;
 

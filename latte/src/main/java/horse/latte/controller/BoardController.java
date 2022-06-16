@@ -46,8 +46,8 @@ public class BoardController {
     }
 
     // 상세페이지
-    @GetMapping("/api/board/{id}")
-    public ResponseEntity getBoard(@PathVariable Long id) {
-        return ResponseEntity.ok().body(boardService.getBoard(id));
+    @GetMapping("/api/detail/{id}")
+    public ResponseEntity getBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok().body(boardService.getBoard(id, userDetails));
     }
 }
